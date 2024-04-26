@@ -2,6 +2,8 @@ import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 import java.io.*;
 import java.util.*;
 
@@ -22,6 +24,10 @@ public class ticket_GUI extends JFrame {
 	private JButton btnNewButton;
 	private JButton btnReturnTicket;
 	private JTextField textField;
+	private JLabel lblaAA, lblbBB, lblaAC;
+	private Showing april20 = new Showing();
+	private Showing april28 = new Showing();
+	private ItemListener itemListener;
 
 	/**
 	 * Launch the application.
@@ -59,10 +65,12 @@ public class ticket_GUI extends JFrame {
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("April 20, 1:00 PM");
 		rdbtnNewRadioButton.setBounds(153, 35, 150, 21);
 		contentPane.add(rdbtnNewRadioButton);
+		//rdbtnNewRadioButton.addItemListener(itemListener);
 		
 		JRadioButton rdbtnApril = new JRadioButton("April 28, 8:00 PM");
 		rdbtnApril.setBounds(153, 61, 150, 21);
 		contentPane.add(rdbtnApril);
+		//rdbtnApril.addItemListener(itemListener);
 		
 		btnNewButton = new JButton("Buy Ticket");
 		btnNewButton.setBounds(100, 232, 120, 21);
@@ -80,15 +88,15 @@ public class ticket_GUI extends JFrame {
 		lblThereAre.setBounds(153, 88, 130, 13);
 		contentPane.add(lblThereAre);
 		
-		JLabel lblaAA = new JLabel("[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]");
+		lblaAA = new JLabel("[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]");
 		lblaAA.setBounds(119, 111, 230, 13);
 		contentPane.add(lblaAA);
 		
-		JLabel lblbBB = new JLabel("[B1, B2, B3, B4, B5, B6, B7, B8, B9, B10]");
+		lblbBB = new JLabel("[B1, B2, B3, B4, B5, B6, B7, B8, B9, B10]");
 		lblbBB.setBounds(119, 122, 230, 13);
 		contentPane.add(lblbBB);
 		
-		JLabel lblaAC = new JLabel("[C1, C2, C3, C4, C5, C6, C7, C8, C9, C10]");
+		lblaAC = new JLabel("[C1, C2, C3, C4, C5, C6, C7, C8, C9, C10]");
 		lblaAC.setBounds(119, 134, 230, 13);
 		contentPane.add(lblaAC);
 		
@@ -104,18 +112,34 @@ public class ticket_GUI extends JFrame {
 		ButtonGroup editableGroup = new ButtonGroup();
 		editableGroup.add(rdbtnNewRadioButton);
 		editableGroup.add(rdbtnApril);
-		
+
+		ItemListener itemListener = new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    JRadioButton source = (JRadioButton) e.getSource();
+                    if(source == rdbtnNewRadioButton){
+						updateSeats(april20);
+					}
+					else if (source == rdbtnApril){
+						updateSeats(april28);
+					}
+                }
+            }
+        };
+		rdbtnNewRadioButton.addItemListener(itemListener);
+		rdbtnApril.addItemListener(itemListener);
+
 		btnNewButton.addActionListener(new ActionListener() {
 		//Action performed for "Buy Ticket"
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnNewRadioButton.isSelected()) { 
-					//making seat reserved
+					takeSeat(april20, textField.getText());
 								
 						}
 				else if(rdbtnApril.isSelected()) {
-								
+					takeSeat(april28, textField.getText());
 					//making seat reserved
 					}
 							
@@ -125,6 +149,53 @@ public class ticket_GUI extends JFrame {
 							
 				}
 			
-	});
+		});
+
+	
+	}
+	public void updateSeats(Showing currentShowing){
+		Map<String, Boolean> currentList = currentShowing.getMovieShowing();
+
+		StringBuilder rowAA = new StringBuilder("[");
+		StringBuilder rowBB = new StringBuilder("[");
+		StringBuilder rowCC = new StringBuilder("[");
+
+
+		for (Map.Entry<String, Boolean> entry : currentList.entrySet()) {
+			if (entry.getKey().startsWith("A")) {
+				if (entry.getValue() == true){ rowAA.append(" - , "); }
+				else{ rowAA.append(entry.getKey()).append(", "); }
+			} else if (entry.getKey().startsWith("B")) {
+				if (entry.getValue() == true){ rowBB.append(" - , "); }
+				else{ rowBB.append(entry.getKey()).append(", "); }
+			} else if (entry.getKey().startsWith("C")) {
+				if (entry.getValue() == true){ rowCC.append(" - , "); }
+				else{ rowCC.append(entry.getKey()).append(", "); }
+			}
+		}
+
+		// Removing the last comma and space, and closing the brackets
+		rowAA.setLength(rowAA.length() - 2);
+		rowAA.append("]");
+		rowBB.setLength(rowBB.length() - 2);
+		rowBB.append("]");
+		rowCC.setLength(rowCC.length() - 2);
+		rowCC.append("]");
+
+		lblaAA.setText(rowAA.toString());
+		lblbBB.setText(rowBB.toString());
+		lblaAC.setText(rowCC.toString());
+	}
+
+	public void takeSeat(Showing showing, String seat){
+		if (!showing.getMovieShowing().get(seat)){
+			showing.occupySeat(seat);
+			updateSeats(showing);
+			//TODO: displat ticket purchased
+		}
+		// seat is TAKEN
+		else{
+			//TODO: display ticket returned from invalid purchase
+		}
 	}
 }
