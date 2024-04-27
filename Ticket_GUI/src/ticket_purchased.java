@@ -40,11 +40,11 @@ public class ticket_purchased extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("The following ticket was purchased:");
-		lblNewLabel.setBounds(135, 10, 165, 13);
+		lblNewLabel.setBounds(135, 10, 250, 13);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("On the date of:");
-		lblNewLabel_1.setBounds(178, 98, 200, 13);
+		lblNewLabel_1.setBounds(178, 100, 200, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("OK");

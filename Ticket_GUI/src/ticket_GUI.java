@@ -28,6 +28,8 @@ public class ticket_GUI extends JFrame {
 	private Showing april20 = new Showing();
 	private Showing april28 = new Showing();
 	private ItemListener itemListener;
+	
+	private static ticket_purchased purchased;
 
 	/**
 	 * Launch the application.
@@ -56,8 +58,9 @@ public class ticket_GUI extends JFrame {
 	}
 	
 	//Buys a ticket and pulls up the ticket purchased gui and calls the updateSeats function to update dictionary and gui 
-	public void BuyTicket() {
-		
+	public ticket_purchased BuyTicket() {
+		return new ticket_purchased();
+
 	}
 	
 	/**
@@ -202,7 +205,23 @@ public class ticket_GUI extends JFrame {
 		if (!showing.getMovieShowing().get(seat)){
 			showing.occupySeat(seat);
 			updateSeats(showing);
-			//TODO: displat ticket purchased
+			//displays ticket purchased
+			purchased = BuyTicket();
+			purchased.setVisible(true);
+			
+			JLabel ticketNumber = new JLabel();
+			purchased.add(ticketNumber);
+			ticketNumber.setBounds(220, 35, 200, 13);
+			ticketNumber.setText(seat);
+			
+			
+			JLabel ticketDate = new JLabel();
+			purchased.add(ticketDate);
+			ticketDate.setBounds(175, 125, 200, 13);
+			if(showing.equals(april20)) ticketDate.setText("April 20, 1:00 PM");
+			else if(showing.equals(april28)) ticketDate.setText("April 28, 8:00 PM");
+			
+			
 		}
 		// seat is TAKEN
 		else{
