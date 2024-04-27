@@ -119,7 +119,7 @@ public class ticket_GUI extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblThereAre = new JLabel("There are 3 seat rows:");
-		lblThereAre.setBounds(153, 88, 130, 13);
+		lblThereAre.setBounds(153, 88, 180, 13);
 		contentPane.add(lblThereAre);
 		
 		lblaAA = new JLabel("[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]");
@@ -169,11 +169,38 @@ public class ticket_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnNewRadioButton.isSelected()) { 
-					takeSeat(april20, textField.getText());
+					try {
+						takeSeat(april20, textField.getText());
+					} catch (NoSeatAvailable e1) {
+						// TODO Auto-generated catch block
+						Not_availiable na = new Not_availiable();
+						na.setVisible(true);
+						
+						JLabel ticketInfo = new JLabel();
+						na.add(ticketInfo);
+						ticketInfo.setBounds(160, 75, 200, 13);
+						ticketInfo.setText(textField.getText() + " on April 20, 1:00 PM");
+						
+						e1.printStackTrace();
+					}
 								
 						}
 				else if(rdbtnApril.isSelected()) {
-					takeSeat(april28, textField.getText());
+					try {
+						takeSeat(april28, textField.getText());
+					} catch (NoSeatAvailable e1) {
+						// TODO Auto-generated catch block
+						Not_availiable na = new Not_availiable();
+						na.setVisible(true);
+						
+						JLabel ticketInfo = new JLabel();
+						na.add(ticketInfo);
+						ticketInfo.setBounds(160, 75, 200, 13);
+						ticketInfo.setText(textField.getText() + " on April 28, 8:00 PM");
+
+						
+						e1.printStackTrace();
+					}
 					//making seat reserved
 					}
 							
@@ -236,7 +263,7 @@ public class ticket_GUI extends JFrame {
 		lblaAC.setText(rowCC.toString());
 	}
 
-	public void takeSeat(Showing showing, String seat){
+	public void takeSeat(Showing showing, String seat) throws NoSeatAvailable{
 		if (!showing.getMovieShowing().get(seat)){
 			showing.occupySeat(seat);
 			updateSeats(showing);
@@ -261,6 +288,11 @@ public class ticket_GUI extends JFrame {
 		// seat is TAKEN
 		else{
 			//TODO: display ticket returned from invalid purchase
+			throw new NoSeatAvailable();
 		}
 	}
+	
+	
 }
+
+
