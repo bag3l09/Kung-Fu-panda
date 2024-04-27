@@ -30,6 +30,7 @@ public class ticket_GUI extends JFrame {
 	private ItemListener itemListener;
 	
 	private static ticket_purchased purchased;
+	private static ticket_returned returned;
 
 	/**
 	 * Launch the application.
@@ -61,6 +62,25 @@ public class ticket_GUI extends JFrame {
 	public ticket_purchased BuyTicket() {
 		return new ticket_purchased();
 
+	}
+	
+	//Returns a ticket
+	public void returnTicket(String seatNumber, Showing seats) {
+		seats.deoccupySeat(seatNumber);
+		returned = new ticket_returned();
+		returned.setVisible(true);
+		JLabel ticketNumber = new JLabel();
+		returned.add(ticketNumber);
+		ticketNumber.setBounds(220, 60, 200, 13);
+		ticketNumber.setText(seatNumber);
+		
+		
+		JLabel ticketDate = new JLabel();
+		returned.add(ticketDate);
+		ticketDate.setBounds(175, 120, 200, 13);
+		if(seats.equals(april20)) ticketDate.setText("April 20, 1:00 PM");
+		else if(seats.equals(april28)) ticketDate.setText("April 28, 8:00 PM");
+		
 	}
 	
 	/**
@@ -162,6 +182,21 @@ public class ticket_GUI extends JFrame {
 					editableGroup.clearSelection();
 							
 				}
+			
+		});
+		
+		btnReturnTicket.addActionListener(new ActionListener() {
+			//Action performed by Return Ticket
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(rdbtnNewRadioButton.isSelected()) {
+					returnTicket(textField.getText(), april20);
+				}
+				else if(rdbtnApril.isSelected()) {
+					returnTicket(textField.getText(), april28);
+				}
+				
+			}
 			
 		});
 

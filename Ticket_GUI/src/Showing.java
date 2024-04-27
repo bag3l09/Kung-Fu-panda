@@ -30,6 +30,10 @@ public class Showing {
     public void occupySeat(String seat){
         movieShowing.put(seat, true);
     }
+    
+    public void deoccupySeat(String seat) {
+    	movieShowing.put(seat, false);
+    }
 
     @Override
     public String toString() {

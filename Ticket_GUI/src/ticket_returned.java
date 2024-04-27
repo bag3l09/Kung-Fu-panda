@@ -43,7 +43,7 @@ public class ticket_returned extends JFrame {
 		btnNewButton.setBounds(197, 232, 60, 21);
 		contentPane.add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("The Following ticket has been returned:");
+		JLabel lblNewLabel = new JLabel("The following ticket has been returned:");
 		lblNewLabel.setBounds(136, 44, 300, 13);
 		contentPane.add(lblNewLabel);
 		btnNewButton.addActionListener(e -> this.dispose());
