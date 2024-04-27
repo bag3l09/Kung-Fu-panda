@@ -45,6 +45,10 @@ public class Not_availiable extends JFrame {
 		lblNewLabel.setBounds(160, 56, 200, 13);
 		contentPane.add(lblNewLabel);
 		
+		JLabel lblNewLabel2 = new JLabel("Time requested:");
+		lblNewLabel2.setBounds(160, 100, 200, 13);
+		contentPane.add(lblNewLabel2);
+		
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.setBounds(175, 232, 85, 21);
 		contentPane.add(btnNewButton);

@@ -16,6 +16,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ticket_GUI extends JFrame {
 
@@ -181,6 +183,14 @@ public class ticket_GUI extends JFrame {
 						ticketInfo.setBounds(160, 75, 200, 13);
 						ticketInfo.setText(textField.getText() + " on April 20, 1:00 PM");
 						
+						JLabel ticketPurchaseTime = new JLabel();
+						na.add(ticketPurchaseTime);
+						ticketPurchaseTime.setBounds(150, 130, 200, 13);
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-dd-yyyy hh:mm:ss a");
+						LocalDateTime currentTime = LocalDateTime.now();
+						String formattedTime = currentTime.format(formatter);
+						ticketPurchaseTime.setText(formattedTime);
+						
 						e1.printStackTrace();
 					}
 								
@@ -197,7 +207,14 @@ public class ticket_GUI extends JFrame {
 						na.add(ticketInfo);
 						ticketInfo.setBounds(160, 75, 200, 13);
 						ticketInfo.setText(textField.getText() + " on April 28, 8:00 PM");
-
+						
+						JLabel ticketPurchaseTime = new JLabel();
+						na.add(ticketPurchaseTime);
+						ticketPurchaseTime.setBounds(150, 130, 200, 13);
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-dd-yyyy hh:mm:ss a");
+						LocalDateTime currentTime = LocalDateTime.now();
+						String formattedTime = currentTime.format(formatter);
+						ticketPurchaseTime.setText(formattedTime);
 						
 						e1.printStackTrace();
 					}
@@ -217,12 +234,31 @@ public class ticket_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnNewRadioButton.isSelected()) {
-					giveSeat(april20, textField.getText());
-					returnTicket(textField.getText(), april20);
+					try {
+						giveSeat(april20, textField.getText());
+						returnTicket(textField.getText(), april20);
+					} catch (SeatAvailable e1) {
+						// TODO Auto-generated catch block
+						
+						Already_Purchased ap = new Already_Purchased();
+						ap.setVisible(true);
+						
+						e1.printStackTrace();
+					}
+					
 				}
 				else if(rdbtnApril.isSelected()) {
-					giveSeat(april28, textField.getText());
-					returnTicket(textField.getText(), april28);
+					try {
+						giveSeat(april28, textField.getText());
+						returnTicket(textField.getText(), april28);
+					} catch (SeatAvailable e1) {
+						// TODO Auto-generated catch block
+						Already_Purchased ap = new Already_Purchased();
+						ap.setVisible(true);
+						
+						e1.printStackTrace();
+					}
+					
 				}
 				
 			}
@@ -293,10 +329,13 @@ public class ticket_GUI extends JFrame {
 			throw new NoSeatAvailable();
 		}
 	}
-	public void giveSeat(Showing showing, String seat){
+	public void giveSeat(Showing showing, String seat) throws SeatAvailable{
 		if (showing.getMovieShowing().get(seat)){
 			showing.deoccupySeat(seat);
 			updateSeats(showing);
+		}
+		else {
+			throw new SeatAvailable();
 		}
 	}
 	

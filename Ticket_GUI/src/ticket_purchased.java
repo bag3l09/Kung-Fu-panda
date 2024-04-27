@@ -43,7 +43,7 @@ public class ticket_purchased extends JFrame {
 		lblNewLabel.setBounds(135, 10, 250, 13);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("On the date of:");
+		JLabel lblNewLabel_1 = new JLabel("For the date of:");
 		lblNewLabel_1.setBounds(178, 100, 200, 13);
 		contentPane.add(lblNewLabel_1);
 		
