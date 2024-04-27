@@ -49,6 +49,17 @@ public class ticket_GUI extends JFrame {
 	
 	
 	/////////////////////////////////////////////////////////
+	
+	//checks if theater is full or not
+	public boolean ArtistTheaterFull(Map<String, Boolean> seats) {
+		return !seats.containsValue(false);
+	}
+	
+	//Buys a ticket and pulls up the ticket purchased gui and calls the updateSeats function to update dictionary and gui 
+	public void BuyTicket() {
+		
+	}
+	
 	/**
 	 * Create the frame.
 	 */
