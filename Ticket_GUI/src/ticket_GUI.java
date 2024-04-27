@@ -217,9 +217,11 @@ public class ticket_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnNewRadioButton.isSelected()) {
+					giveSeat(april20, textField.getText());
 					returnTicket(textField.getText(), april20);
 				}
 				else if(rdbtnApril.isSelected()) {
+					giveSeat(april28, textField.getText());
 					returnTicket(textField.getText(), april28);
 				}
 				
@@ -289,6 +291,12 @@ public class ticket_GUI extends JFrame {
 		else{
 			//TODO: display ticket returned from invalid purchase
 			throw new NoSeatAvailable();
+		}
+	}
+	public void giveSeat(Showing showing, String seat){
+		if (showing.getMovieShowing().get(seat)){
+			showing.deoccupySeat(seat);
+			updateSeats(showing);
 		}
 	}
 	
